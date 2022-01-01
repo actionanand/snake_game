@@ -16,6 +16,9 @@ export class World {
 * @returns {number}
 */
   snake_head_idx(): number;
+/**
+*/
+  update(): void;
 }
 
 export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
@@ -26,6 +29,7 @@ export interface InitOutput {
   readonly world_new: () => number;
   readonly world_width: (a: number) => number;
   readonly world_snake_head_idx: (a: number) => number;
+  readonly world_update: (a: number) => void;
 }
 
 /**
