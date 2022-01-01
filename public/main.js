@@ -4,8 +4,8 @@ init()
 .then(_ => {
   const CELL_SIZE = 10;
 
-  const word = World.new();
-  const worldWidth = word.width(); 
+  const world = World.new();
+  const worldWidth = world.width(); 
 
   const canvas = document.getElementById("snake-canvas");
   const ctx = canvas.getContext("2d");
@@ -29,5 +29,6 @@ init()
     ctx.stroke();
   }
 
+  console.log(world.snake_head_idx());
   drawWorld();
 });
