@@ -12,6 +12,10 @@ export class World {
 * @returns {number}
 */
   width(): number;
+/**
+* @returns {number}
+*/
+  snake_head_idx(): number;
 }
 
 export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
@@ -21,6 +25,7 @@ export interface InitOutput {
   readonly __wbg_world_free: (a: number) => void;
   readonly world_new: () => number;
   readonly world_width: (a: number) => number;
+  readonly world_snake_head_idx: (a: number) => number;
 }
 
 /**
