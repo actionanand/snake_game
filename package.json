@@ -1,0 +1,25 @@
+{
+  "name": "snake_game",
+  "version": "1.0.0",
+  "description": "This is a mini game to learn about `webassembly` with the help of `rust` language. The concept is running old Nokia Snake game in web using rust.",
+  "main": "index.js",
+  "scripts": {
+    "wasm": "wasm-pack build --target web",
+    "serve": "webpack serve --mode=development",
+    "prodBuild": "webpack --mode=production",
+    "build": "concurrently \"npm run wasm\" \"npm run prodBuild\""
+  },
+  "keywords": [],
+  "author": "Anand Raja",
+  "license": "ISC",
+  "devDependencies": {
+    "copy-webpack-plugin": "^10.2.0",
+    "html-webpack-plugin": "^5.5.0",
+    "webpack": "^5.65.0",
+    "webpack-cli": "^4.9.1",
+    "webpack-dev-server": "^4.7.2"
+  },
+  "dependencies": {
+    "concurrently": "^6.5.1"
+  }
+}
