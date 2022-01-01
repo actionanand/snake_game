@@ -1,17 +1,26 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
-* @param {string} name
 */
-export function greet(name: string): void;
+export class World {
+  free(): void;
+/**
+* @returns {World}
+*/
+  static new(): World;
+/**
+* @returns {number}
+*/
+  width(): number;
+}
 
 export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
 
 export interface InitOutput {
   readonly memory: WebAssembly.Memory;
-  readonly greet: (a: number, b: number) => void;
-  readonly __wbindgen_malloc: (a: number) => number;
-  readonly __wbindgen_realloc: (a: number, b: number, c: number) => number;
+  readonly __wbg_world_free: (a: number) => void;
+  readonly world_new: () => number;
+  readonly world_width: (a: number) => number;
 }
 
 /**

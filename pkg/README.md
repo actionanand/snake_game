@@ -23,7 +23,7 @@ cargo init
 cargo init --lib
   ```
 
-## Installing dependent node packages
+## Installing dependent packages and spinning up the server
 
   1. webpack
 
@@ -62,6 +62,13 @@ wasm-pack build --target web
 
 ## How to run this app?
 
+  1. Build rust code as package to be consumed by js
+```bash
+npm run wasm
+```
+
+  2. To serve the web app - development
+
 ```bash
 npm run serve
 ```
@@ -74,3 +81,4 @@ npm run serve
 ### Resources
 
   * [Rust Package registry](https://crates.io/)
+  * [wee_alloc](https://github.com/rustwasm/wee_alloc)
