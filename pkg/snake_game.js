@@ -59,6 +59,11 @@ export class World {
         var ret = wasm.world_snake_head_idx(this.ptr);
         return ret >>> 0;
     }
+    /**
+    */
+    update() {
+        wasm.world_update(this.ptr);
+    }
 }
 
 async function load(module, imports) {
