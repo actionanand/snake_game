@@ -8,6 +8,11 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     filename: 'index.js'
   },
+  devServer: {
+    allowedHosts: [
+      'all'
+    ],
+  },
   plugins: [
     new HtmlWebPackPlugin({
       template: './public/index.html'
