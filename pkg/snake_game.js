@@ -18,6 +18,9 @@ function getStringFromWasm0(ptr, len) {
 }
 /**
 */
+export const Direction = Object.freeze({ Up:0,"0":"Up",Right:1,"1":"Right",Down:2,"2":"Down",Left:3,"3":"Left", });
+/**
+*/
 export class World {
 
     static __wrap(ptr) {
@@ -60,6 +63,12 @@ export class World {
     snake_head_idx() {
         var ret = wasm.world_snake_head_idx(this.ptr);
         return ret >>> 0;
+    }
+    /**
+    * @param {number} direction
+    */
+    change_snake_dir(direction) {
+        wasm.world_change_snake_dir(this.ptr, direction);
     }
     /**
     */

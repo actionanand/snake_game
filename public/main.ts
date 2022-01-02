@@ -1,4 +1,4 @@
-import init, { World } from "../pkg/snake_game";
+import init, { World, Direction } from "../pkg/snake_game";
 
 init()
 .then(_ => {
@@ -16,18 +16,23 @@ init()
   canvas.width = worldWidth * CELL_SIZE;
 
   document.addEventListener('keydown', (event) => {
+    // console.log(event.code);
     switch(event.code) {
       case 'ArrowUp':
-        console.log('turn up');
+      case 'KeyW':
+        world.change_snake_dir(Direction.Up);
         break;
       case 'ArrowRight':
-        console.log('turn right');
+      case 'KeyD':
+        world.change_snake_dir(Direction.Right);
         break;
       case 'ArrowDown':
-        console.log('turn down');
+      case 'KeyS':
+        world.change_snake_dir(Direction.Down);
         break;
       case 'ArrowLeft':
-        console.log('turn left');
+      case 'KeyA':
+        world.change_snake_dir(Direction.Left);
         break;
     }
   });
