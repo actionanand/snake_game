@@ -15,6 +15,23 @@ init()
   canvas.height = worldWidth * CELL_SIZE;
   canvas.width = worldWidth * CELL_SIZE;
 
+  document.addEventListener('keydown', (event) => {
+    switch(event.code) {
+      case 'ArrowUp':
+        console.log('turn up');
+        break;
+      case 'ArrowRight':
+        console.log('turn right');
+        break;
+      case 'ArrowDown':
+        console.log('turn down');
+        break;
+      case 'ArrowLeft':
+        console.log('turn left');
+        break;
+    }
+  });
+
   function drawWorld() {
     ctx.beginPath();
 
