@@ -59,6 +59,13 @@ cargo install wasm-pack
 wasm-pack build --target web
 ```
 
+  7. To add type support for js
+  ```bash
+npm install --save-dev typescript ts-loader
+  ```
+
+  configure `webpack.config.js` file
+
 
 ## How to run this app?
 

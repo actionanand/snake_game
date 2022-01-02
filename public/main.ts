@@ -1,4 +1,4 @@
-import init, { World } from "../pkg/snake_game.js";
+import init, { World } from "../pkg/snake_game";
 
 init()
 .then(_ => {
@@ -7,7 +7,7 @@ init()
   const world = World.new();
   const worldWidth = world.width(); 
 
-  const canvas = document.getElementById("snake-canvas");
+  const canvas = <HTMLCanvasElement> document.getElementById("snake-canvas");
   const ctx = canvas.getContext("2d");
 
   canvas.height = worldWidth * CELL_SIZE;
@@ -44,11 +44,21 @@ init()
     ctx.stroke();
   }
 
-  setInterval(() => {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  function paint() {
     drawWorld();
     drawSnake();
-    world.update();
-  }, 100);
+  }
+
+  function update() {
+    setTimeout(() => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      paint();
+      world.update();
+      requestAnimationFrame(update);
+    }, 100);
+  }
+
+paint();
+update();
 
 });
