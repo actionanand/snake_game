@@ -2,9 +2,11 @@ import init, { World } from "../pkg/snake_game";
 
 init()
 .then(_ => {
-  const CELL_SIZE = 10;
+  const CELL_SIZE = 20;
+  const WORLD_WIDTH = 8;
+  const snakeSpawnIdx = Date.now() % (WORLD_WIDTH * WORLD_WIDTH);
 
-  const world = World.new();
+  const world = World.new(WORLD_WIDTH, snakeSpawnIdx);
   const worldWidth = world.width(); 
 
   const canvas = <HTMLCanvasElement> document.getElementById("snake-canvas");
@@ -50,12 +52,13 @@ init()
   }
 
   function update() {
+    const fps = 3;
     setTimeout(() => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       paint();
       world.update();
       requestAnimationFrame(update);
-    }, 100);
+    }, 1000/fps);
   }
 
 paint();

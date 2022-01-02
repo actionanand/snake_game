@@ -5,9 +5,11 @@
 export class World {
   free(): void;
 /**
+* @param {number} width
+* @param {number} snake_idx
 * @returns {World}
 */
-  static new(): World;
+  static new(width: number, snake_idx: number): World;
 /**
 * @returns {number}
 */
@@ -26,7 +28,7 @@ export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembl
 export interface InitOutput {
   readonly memory: WebAssembly.Memory;
   readonly __wbg_world_free: (a: number) => void;
-  readonly world_new: () => number;
+  readonly world_new: (a: number, b: number) => number;
   readonly world_width: (a: number) => number;
   readonly world_snake_head_idx: (a: number) => number;
   readonly world_update: (a: number) => void;
