@@ -39,10 +39,12 @@ export class World {
         wasm.__wbg_world_free(ptr);
     }
     /**
+    * @param {number} width
+    * @param {number} snake_idx
     * @returns {World}
     */
-    static new() {
-        var ret = wasm.world_new();
+    static new(width, snake_idx) {
+        var ret = wasm.world_new(width, snake_idx);
         return World.__wrap(ret);
     }
     /**
