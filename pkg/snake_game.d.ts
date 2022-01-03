@@ -31,6 +31,14 @@ export class World {
 */
   change_snake_dir(direction: number): void;
 /**
+* @returns {number}
+*/
+  snake_length(): number;
+/**
+* @returns {number}
+*/
+  snake_cells(): number;
+/**
 */
   update(): void;
 }
@@ -44,6 +52,8 @@ export interface InitOutput {
   readonly world_width: (a: number) => number;
   readonly world_snake_head_idx: (a: number) => number;
   readonly world_change_snake_dir: (a: number, b: number) => void;
+  readonly world_snake_length: (a: number) => number;
+  readonly world_snake_cells: (a: number) => number;
   readonly world_update: (a: number) => void;
 }
 
