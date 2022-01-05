@@ -40,7 +40,7 @@ export class World {
   snake_cells(): number;
 /**
 */
-  update(): void;
+  step(): void;
 }
 
 export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
@@ -54,7 +54,7 @@ export interface InitOutput {
   readonly world_change_snake_dir: (a: number, b: number) => void;
   readonly world_snake_length: (a: number) => number;
   readonly world_snake_cells: (a: number) => number;
-  readonly world_update: (a: number) => void;
+  readonly world_step: (a: number) => void;
 }
 
 /**
