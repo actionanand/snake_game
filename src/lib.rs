@@ -129,7 +129,7 @@ impl World {
     }
 
     if self.reward_cell == self.snake_head_idx() {
-      self.snake.body.push(SnakeCell(self.snake.body[1].0));
+      self.snake.body.push(SnakeCell(self.snake.body[1].0)); // pushing index 1 of snake body at the end (the same cell)
     }
   }
 
