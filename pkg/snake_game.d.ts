@@ -10,6 +10,13 @@ export enum Direction {
 }
 /**
 */
+export enum GamesStatus {
+  Won,
+  Lost,
+  Played,
+}
+/**
+*/
 export class World {
   free(): void;
 /**
@@ -30,6 +37,17 @@ export class World {
 * @returns {number}
 */
   snake_head_idx(): number;
+/**
+*/
+  start_game(): void;
+/**
+* @returns {number | undefined}
+*/
+  game_status(): number | undefined;
+/**
+* @returns {string}
+*/
+  game_status_text(): string;
 /**
 * @param {number} direction
 */
@@ -56,10 +74,15 @@ export interface InitOutput {
   readonly world_width: (a: number) => number;
   readonly world_reward_cell: (a: number) => number;
   readonly world_snake_head_idx: (a: number) => number;
+  readonly world_start_game: (a: number) => void;
+  readonly world_game_status: (a: number) => number;
+  readonly world_game_status_text: (a: number, b: number) => void;
   readonly world_change_snake_dir: (a: number, b: number) => void;
   readonly world_snake_length: (a: number) => number;
   readonly world_snake_cells: (a: number) => number;
   readonly world_step: (a: number) => void;
+  readonly __wbindgen_add_to_stack_pointer: (a: number) => number;
+  readonly __wbindgen_free: (a: number, b: number) => void;
 }
 
 /**

@@ -17,9 +17,20 @@ function getUint8Memory0() {
 function getStringFromWasm0(ptr, len) {
     return cachedTextDecoder.decode(getUint8Memory0().subarray(ptr, ptr + len));
 }
+
+let cachegetInt32Memory0 = null;
+function getInt32Memory0() {
+    if (cachegetInt32Memory0 === null || cachegetInt32Memory0.buffer !== wasm.memory.buffer) {
+        cachegetInt32Memory0 = new Int32Array(wasm.memory.buffer);
+    }
+    return cachegetInt32Memory0;
+}
 /**
 */
 export const Direction = Object.freeze({ Up:0,"0":"Up",Right:1,"1":"Right",Down:2,"2":"Down",Left:3,"3":"Left", });
+/**
+*/
+export const GamesStatus = Object.freeze({ Won:0,"0":"Won",Lost:1,"1":"Lost",Played:2,"2":"Played", });
 /**
 */
 export class World {
@@ -71,6 +82,33 @@ export class World {
     snake_head_idx() {
         var ret = wasm.world_snake_head_idx(this.ptr);
         return ret >>> 0;
+    }
+    /**
+    */
+    start_game() {
+        wasm.world_start_game(this.ptr);
+    }
+    /**
+    * @returns {number | undefined}
+    */
+    game_status() {
+        var ret = wasm.world_game_status(this.ptr);
+        return ret === 3 ? undefined : ret;
+    }
+    /**
+    * @returns {string}
+    */
+    game_status_text() {
+        try {
+            const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
+            wasm.world_game_status_text(retptr, this.ptr);
+            var r0 = getInt32Memory0()[retptr / 4 + 0];
+            var r1 = getInt32Memory0()[retptr / 4 + 1];
+            return getStringFromWasm0(r0, r1);
+        } finally {
+            wasm.__wbindgen_add_to_stack_pointer(16);
+            wasm.__wbindgen_free(r0, r1);
+        }
     }
     /**
     * @param {number} direction
