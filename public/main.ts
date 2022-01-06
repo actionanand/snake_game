@@ -15,16 +15,6 @@ init()
   canvas.height = worldWidth * CELL_SIZE;
   canvas.width = worldWidth * CELL_SIZE;
 
-  const snakeCellPtr = world.snake_cells();
-  const snakeLen = world.snake_length();
-
-  const snakeCells = new Uint32Array(
-    wasm.memory.buffer,
-    snakeCellPtr,
-    snakeLen
-  );
-
-  console.log(snakeCells);
 
   document.addEventListener('keydown', (event) => {
     // console.log(event.code);
@@ -65,17 +55,31 @@ init()
   }
 
   function drawSnake() {
-    const snakeIdx = world.snake_head_idx();
-    const col = snakeIdx % worldWidth;
-    const row = Math.floor(snakeIdx / worldWidth);
+    const snakeCellPtr = world.snake_cells();
+    const snakeLen = world.snake_length();
 
-    ctx.beginPath();
-    ctx.fillRect(
-      col * CELL_SIZE,
-      row * CELL_SIZE,
-      CELL_SIZE,
-      CELL_SIZE
+    const snakeCells = new Uint32Array(
+      wasm.memory.buffer,
+      snakeCellPtr,
+      snakeLen
     );
+
+    snakeCells.forEach((cellIdx, i) => {
+      const col = cellIdx % worldWidth;
+      const row = Math.floor(cellIdx / worldWidth);
+
+      ctx.fillStyle = i === 0 ? "#7878db" : "#000000"
+  
+      ctx.beginPath();
+      ctx.fillRect(
+        col * CELL_SIZE,
+        row * CELL_SIZE,
+        CELL_SIZE,
+        CELL_SIZE
+      );
+    });
+
+
     ctx.stroke();
   }
 
@@ -89,7 +93,7 @@ init()
     setTimeout(() => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       paint();
-      world.update();
+      world.step();
       requestAnimationFrame(update);
     }, 1000/fps);
   }

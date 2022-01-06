@@ -86,8 +86,8 @@ export class World {
     }
     /**
     */
-    update() {
-        wasm.world_update(this.ptr);
+    step() {
+        wasm.world_step(this.ptr);
     }
 }
 
