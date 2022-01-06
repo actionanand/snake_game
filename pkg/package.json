@@ -8,5 +8,8 @@
   ],
   "module": "snake_game.js",
   "types": "snake_game.d.ts",
-  "sideEffects": false
+  "sideEffects": false,
+  "dependencies": {
+    "concurrently": "^6.5.1"
+  }
 }

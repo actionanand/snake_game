@@ -54,6 +54,22 @@ init()
     ctx.stroke();
   }
 
+  function drawReward() {
+    const reward_idx = world.reward_cell();
+    const col = reward_idx % worldWidth;
+    const row = Math.floor(reward_idx / worldWidth);
+
+    ctx.beginPath();
+    ctx.fillStyle = "#FF0000";
+    ctx.fillRect(
+      col * CELL_SIZE,
+      row * CELL_SIZE,
+      CELL_SIZE,
+      CELL_SIZE
+    );
+    ctx.stroke();
+  }
+
   function drawSnake() {
     const snakeCellPtr = world.snake_cells();
     const snakeLen = world.snake_length();
@@ -86,6 +102,7 @@ init()
   function paint() {
     drawWorld();
     drawSnake();
+    drawReward();
   }
 
   function update() {
