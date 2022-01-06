@@ -1,10 +1,11 @@
 import init, { World, Direction } from "../pkg/snake_game";
+import { rnd } from "./utils/rnd";
 
 init()
 .then(wasm => {
   const CELL_SIZE = 20;
   const WORLD_WIDTH = 8;
-  const snakeSpawnIdx = Date.now() % (WORLD_WIDTH * WORLD_WIDTH);
+  const snakeSpawnIdx = rnd(WORLD_WIDTH * WORLD_WIDTH);
 
   const world = World.new(WORLD_WIDTH, snakeSpawnIdx);
   const worldWidth = world.width(); 
@@ -54,6 +55,22 @@ init()
     ctx.stroke();
   }
 
+  function drawReward() {
+    const reward_idx = world.reward_cell();
+    const col = reward_idx % worldWidth;
+    const row = Math.floor(reward_idx / worldWidth);
+
+    ctx.beginPath();
+    ctx.fillStyle = "#FF0000";
+    ctx.fillRect(
+      col * CELL_SIZE,
+      row * CELL_SIZE,
+      CELL_SIZE,
+      CELL_SIZE
+    );
+    ctx.stroke();
+  }
+
   function drawSnake() {
     const snakeCellPtr = world.snake_cells();
     const snakeLen = world.snake_length();
@@ -86,6 +103,7 @@ init()
   function paint() {
     drawWorld();
     drawSnake();
+    drawReward();
   }
 
   function update() {

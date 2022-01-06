@@ -1,3 +1,4 @@
+import { rnd } from './snippets/snake_game-027f5cd2d64d2885/public/utils/rnd.js';
 
 let wasm;
 
@@ -55,6 +56,13 @@ export class World {
     */
     width() {
         var ret = wasm.world_width(this.ptr);
+        return ret >>> 0;
+    }
+    /**
+    * @returns {number}
+    */
+    reward_cell() {
+        var ret = wasm.world_reward_cell(this.ptr);
         return ret >>> 0;
     }
     /**
@@ -128,6 +136,10 @@ async function init(input) {
     }
     const imports = {};
     imports.wbg = {};
+    imports.wbg.__wbg_rnd_d0b99aeca37e4e54 = function(arg0) {
+        var ret = rnd(arg0 >>> 0);
+        return ret;
+    };
     imports.wbg.__wbindgen_throw = function(arg0, arg1) {
         throw new Error(getStringFromWasm0(arg0, arg1));
     };
