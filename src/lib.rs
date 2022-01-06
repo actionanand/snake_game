@@ -14,6 +14,7 @@ pub enum Direction {
   Left
 }
 
+#[derive(Clone)]
 pub struct SnakeCell(usize);
 
 struct Snake {
@@ -81,9 +82,14 @@ impl World {
   }
 
   pub fn step(&mut self) {
+    let temp = self.snake.body.clone();
     let next_cell = self.gen_next_snake_cell();
+    let len = self.snake.body.len();
+
     self.snake.body[0] = next_cell;
-    
+    for i in 1..len {
+      self.snake.body[i] = SnakeCell(temp[i - 1].0);
+    }
   }
 
   fn gen_next_snake_cell(&self) -> SnakeCell {
@@ -92,16 +98,40 @@ impl World {
 
     return match self.snake.direction {
       Direction::Right => {
-        SnakeCell((row * self.width) + (snake_idx + 1) % self.width)
+        // SnakeCell((row * self.width) + (snake_idx + 1) % self.width)
+        let threshold = (row + 1) * self.width;
+        if snake_idx + 1 == threshold {
+          SnakeCell(threshold - self.width)
+        } else {
+          SnakeCell(snake_idx + 1)
+        }
       },
       Direction::Left => {
-        SnakeCell((row * self.width) + (snake_idx - 1) % self.width)
+        // SnakeCell((row * self.width) + (snake_idx - 1) % self.width)
+        let threshold = row * self.width;
+        if snake_idx == threshold {
+          SnakeCell(threshold + (self.width - 1))
+        } else {
+          SnakeCell(snake_idx - 1)
+        }
       },
       Direction::Up => {
-        SnakeCell((snake_idx - self.width) % self.size)
+        // SnakeCell((snake_idx - self.width) % self.size)
+        let threshold = snake_idx - (row * self.width);
+        if snake_idx == threshold {
+          SnakeCell((self.size - self.width) + threshold)
+        } else {
+          SnakeCell(snake_idx - self.width)
+        }
       },
       Direction::Down => {
-        SnakeCell((snake_idx + self.width) % self.size)
+        // SnakeCell((snake_idx + self.width) % self.size)
+        let threshold = snake_idx + ((self.width - row) * self.width);
+        if snake_idx + self.width == threshold {
+          SnakeCell(threshold - (row + 1) * self.width)
+        } else {
+          SnakeCell(snake_idx + self.width)
+        }
       }
     };
   }
