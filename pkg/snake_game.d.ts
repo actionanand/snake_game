@@ -32,7 +32,11 @@ export class World {
 /**
 * @returns {number}
 */
-  reward_cell(): number;
+  points(): number;
+/**
+* @returns {number | undefined}
+*/
+  reward_cell(): number | undefined;
 /**
 * @returns {number}
 */
@@ -72,7 +76,8 @@ export interface InitOutput {
   readonly __wbg_world_free: (a: number) => void;
   readonly world_new: (a: number, b: number) => number;
   readonly world_width: (a: number) => number;
-  readonly world_reward_cell: (a: number) => number;
+  readonly world_points: (a: number) => number;
+  readonly world_reward_cell: (a: number, b: number) => void;
   readonly world_snake_head_idx: (a: number) => number;
   readonly world_start_game: (a: number) => void;
   readonly world_game_status: (a: number) => number;

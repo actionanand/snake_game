@@ -1,4 +1,5 @@
 import init, { World, Direction } from "../pkg/snake_game";
+import { GamesStatus } from "../pkg/snake_game";
 import { rnd } from "./utils/rnd";
 
 init()
@@ -12,6 +13,7 @@ init()
 
   const gameControlBtn = document.getElementById("game-control-btn");
   const gameStatus = document.getElementById("game-status");
+  const gamePoints = document.getElementById("game-points");
 
   const canvas = <HTMLCanvasElement> document.getElementById("snake-canvas");
   const ctx = canvas.getContext("2d");
@@ -95,7 +97,9 @@ init()
       snakeLen
     );
 
-    snakeCells.forEach((cellIdx, i) => {
+    snakeCells
+    .filter((cellIdx, i) => !(i > 0 && cellIdx === snakeCells[0])) // removing the clashing snake body cell to show snake head; this is filter-out method
+    .forEach((cellIdx, i) => {
       const col = cellIdx % worldWidth;
       const row = Math.floor(cellIdx / worldWidth);
 
@@ -115,7 +119,13 @@ init()
   }
 
   function drawGameStatus() {
-    gameStatus.textContent = world.game_status_text()
+    const status = world.game_status();
+    gameStatus.textContent = world.game_status_text();
+    gamePoints.textContent = world.points().toString();
+
+    if(status == GamesStatus.Won || status == GamesStatus.Lost) {
+      gameControlBtn.textContent = 'Re-Play';
+    }
   }
 
   function paint() {
