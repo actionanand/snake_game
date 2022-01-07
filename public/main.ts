@@ -95,7 +95,9 @@ init()
       snakeLen
     );
 
-    snakeCells.forEach((cellIdx, i) => {
+    snakeCells
+    .filter((cellIdx, i) => !(i > 0 && cellIdx === snakeCells[0])) // removing the clashing snake body cell to show snake head; this is filter-out method
+    .forEach((cellIdx, i) => {
       const col = cellIdx % worldWidth;
       const row = Math.floor(cellIdx / worldWidth);
 
