@@ -70,6 +70,13 @@ export class World {
         return ret >>> 0;
     }
     /**
+    * @returns {number}
+    */
+    points() {
+        var ret = wasm.world_points(this.ptr);
+        return ret >>> 0;
+    }
+    /**
     * @returns {number | undefined}
     */
     reward_cell() {

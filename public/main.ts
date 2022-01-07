@@ -1,4 +1,5 @@
 import init, { World, Direction } from "../pkg/snake_game";
+import { GamesStatus } from "../pkg/snake_game";
 import { rnd } from "./utils/rnd";
 
 init()
@@ -12,6 +13,7 @@ init()
 
   const gameControlBtn = document.getElementById("game-control-btn");
   const gameStatus = document.getElementById("game-status");
+  const gamePoints = document.getElementById("game-points");
 
   const canvas = <HTMLCanvasElement> document.getElementById("snake-canvas");
   const ctx = canvas.getContext("2d");
@@ -117,7 +119,13 @@ init()
   }
 
   function drawGameStatus() {
-    gameStatus.textContent = world.game_status_text()
+    const status = world.game_status();
+    gameStatus.textContent = world.game_status_text();
+    gamePoints.textContent = world.points().toString();
+
+    if(status == GamesStatus.Won || status == GamesStatus.Lost) {
+      gameControlBtn.textContent = 'Re-Play';
+    }
   }
 
   function paint() {
