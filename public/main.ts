@@ -134,6 +134,7 @@ init()
     const status = world.game_status();
     if(status == GamesStatus.Won || status == GamesStatus.Lost) {
       gameControlBtn.textContent = 'Re-Play';
+      drawGameStatus();
       return;
     }
 
