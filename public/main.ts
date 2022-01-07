@@ -119,13 +119,8 @@ init()
   }
 
   function drawGameStatus() {
-    const status = world.game_status();
     gameStatus.textContent = world.game_status_text();
     gamePoints.textContent = world.points().toString();
-
-    if(status == GamesStatus.Won || status == GamesStatus.Lost) {
-      gameControlBtn.textContent = 'Re-Play';
-    }
   }
 
   function paint() {
@@ -136,6 +131,12 @@ init()
   }
 
   function play() {
+    const status = world.game_status();
+    if(status == GamesStatus.Won || status == GamesStatus.Lost) {
+      gameControlBtn.textContent = 'Re-Play';
+      return;
+    }
+
     const fps = 3;
     setTimeout(() => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
