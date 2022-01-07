@@ -5,7 +5,7 @@ import { rnd } from "./utils/rnd";
 init()
 .then(wasm => {
   const CELL_SIZE = 20;
-  const WORLD_WIDTH = 8;
+  const WORLD_WIDTH = 13;
   const snakeSpawnIdx = rnd(WORLD_WIDTH * WORLD_WIDTH);
 
   const world = World.new(WORLD_WIDTH, snakeSpawnIdx);
@@ -77,7 +77,7 @@ init()
     const row = Math.floor(reward_idx / worldWidth);
 
     ctx.beginPath();
-    ctx.fillStyle = "#FF0000";
+    ctx.fillStyle = "#7878db";
     ctx.fillRect(
       col * CELL_SIZE,
       row * CELL_SIZE,
@@ -103,7 +103,7 @@ init()
       const col = cellIdx % worldWidth;
       const row = Math.floor(cellIdx / worldWidth);
 
-      ctx.fillStyle = i === 0 ? "#7878db" : "#000000"
+      ctx.fillStyle = i === 0 ? "#ff0000" : "#1db954"
   
       ctx.beginPath();
       ctx.fillRect(
