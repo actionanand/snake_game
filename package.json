@@ -7,13 +7,19 @@
     "wasm": "wasm-pack build --target web",
     "serve": "webpack serve --mode=development",
     "prodBuild": "webpack --mode=production",
-    "build": "concurrently \"npm run wasm\" \"npm run prodBuild\""
+    "build": "concurrently \"npm run wasm\" \"npm run prodBuild\"",
+    "deploy": "gh-pages -d dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/actionanand/snake_game"
   },
   "keywords": [],
   "author": "Anand Raja",
   "license": "ISC",
   "devDependencies": {
     "copy-webpack-plugin": "^10.2.0",
+    "gh-pages": "^3.2.3",
     "html-webpack-plugin": "^5.5.0",
     "ts-loader": "^9.2.6",
     "typescript": "^4.5.4",
