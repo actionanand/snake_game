@@ -1,6 +1,6 @@
-import init, { World, Direction } from "../pkg/snake_game";
-import { GamesStatus } from "../pkg/snake_game";
-import { rnd } from "./utils/rnd";
+import init, { World, Direction } from '../pkg/snake_game';
+import { GamesStatus } from '../pkg/snake_game';
+import { rnd } from './utils/rnd';
 
 init()
 .then(wasm => {
@@ -11,12 +11,23 @@ init()
   const world = World.new(WORLD_WIDTH, snakeSpawnIdx);
   const worldWidth = world.width(); 
 
-  const gameControlBtn = document.getElementById("game-control-btn");
-  const gameStatus = document.getElementById("game-status");
-  const gamePoints = document.getElementById("game-points");
+  const gameControlBtn = document.getElementById('game-control-btn');
+  const gameStatus = document.getElementById('game-status');
+  const gamePoints = document.getElementById('game-points');
+  const btnUp = document.getElementById('key-up');
+  const btnDown = document.getElementById('key-down');
+  const btnLeft = document.getElementById('key-left');
+  const btnRight = document.getElementById('key-right');
 
-  const canvas = <HTMLCanvasElement> document.getElementById("snake-canvas");
-  const ctx = canvas.getContext("2d");
+  const canvas = <HTMLCanvasElement> document.getElementById('snake-canvas');
+  const ctx = canvas.getContext('2d');
+
+  const myColors = {
+    '--green-bg': `#15883e`,
+    '--green-lite': '#1db954',
+    '--my-red': '#ff0000',
+    '--my-purple': '#7878db'
+  }
 
   canvas.height = worldWidth * CELL_SIZE;
   canvas.width = worldWidth * CELL_SIZE;
@@ -55,6 +66,22 @@ init()
     }
   });
 
+  btnUp.addEventListener('click', _ => {
+    world.change_snake_dir(Direction.Up);
+  });
+
+  btnDown.addEventListener('click', _ => {
+    world.change_snake_dir(Direction.Down);
+  });
+
+  btnLeft.addEventListener('click', _ => {
+    world.change_snake_dir(Direction.Left);
+  });
+
+  btnRight.addEventListener('click', _ => {
+    world.change_snake_dir(Direction.Right);
+  });
+
   function drawWorld() {
     ctx.beginPath();
 
@@ -77,7 +104,7 @@ init()
     const row = Math.floor(reward_idx / worldWidth);
 
     ctx.beginPath();
-    ctx.fillStyle = "#7878db";
+    ctx.fillStyle = myColors['--my-purple'];
     ctx.fillRect(
       col * CELL_SIZE,
       row * CELL_SIZE,
@@ -103,7 +130,7 @@ init()
       const col = cellIdx % worldWidth;
       const row = Math.floor(cellIdx / worldWidth);
 
-      ctx.fillStyle = i === 0 ? "#ff0000" : "#1db954"
+      ctx.fillStyle = i === 0 ? myColors['--my-red'] : myColors['--green-lite'];
   
       ctx.beginPath();
       ctx.fillRect(
