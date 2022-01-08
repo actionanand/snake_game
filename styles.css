@@ -1,4 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Bigelow+Rules&display=swap');
+@import url(https://fonts.googleapis.com/css?family=Lato:300);
+
+:root {
+  --green-bg: #15883e;
+  --green-lite: #1db954;
+  --my-red: #ff0000;
+  --my-purple: #7878db;
+}
 
 .page-wrap {
   display: flex;
@@ -16,11 +24,11 @@
   font-family: 'Bigelow Rules', cursive;
   font-size: 3.5rem;
   font-weight: bold;
-  color: #15883e;
+  color: var(--green-bg);
 }
 
 .page-wrap-title:hover {
-  color: #1db954;
+  color: var(--green-lite);
 }
 
 .game-panel {
@@ -54,11 +62,55 @@
   text-align: center;
   padding: 16px 14px 18px;
   color: #fff;
-  background-color: #15883e;
+  background-color: var(--green-bg);
   height: 48px;
 }
 
 
 #game-control-btn:hover{
-  background-color: #1db954;
+  background-color: var(--green-lite);
+}
+
+/* Arrow keys */
+
+.keys {
+  font-family: 'Lato', sans-serif;    
+  text-align: center;
+  width: 500px;
+  height: 200px;
+  margin: auto;
+}
+
+.arr {
+  cursor: pointer;
+  width: 100px;
+  height: 100px;
+  text-align: center;
+  line-height: 100px;
+  background: var(--green-bg);
+  color: white;
+  font-size: 50px;
+  border-right: 10px solid darken(var(--green-bg), 20);
+  border-bottom: 10px solid darken(var(--green-bg), 20);
+  border-left: 10px solid darken(var(--green-bg), 15);
+  border-top: 10px solid darken(var(--green-bg), 10);  
+  display: inline-block;
+  margin: 5px;
+  transition: all .05s linear;
+  user-select: none;
+}
+
+.arr:active {
+  border-bottom: 8px solid darken(var(--green-bg), 20);
+  text-shadow: 0 0 10px white, 0 0 10px white, 0 0 20px white;    
+  transform: translate(0, 2px);
+}
+
+.arr:hover {
+  background: var(--green-lite);
+}
+
+.up {
+  position: relative;
+  top: -4px;
 }
