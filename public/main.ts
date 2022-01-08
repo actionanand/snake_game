@@ -1,5 +1,5 @@
-import init, { World, Direction } from '../pkg/snake_game';
-import { GamesStatus } from '../pkg/snake_game';
+import init, { World, Direction } from '../pkg/ar_snake_game';
+import { GamesStatus } from '../pkg/ar_snake_game';
 import { rnd } from './utils/rnd';
 
 init()

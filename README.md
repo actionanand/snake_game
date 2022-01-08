@@ -1,91 +1,202 @@
-# Snake Game
+# AR Snake Game
 
-This is a mini game to learn about `webassembly` with the help of `rust` language. The concept is running old Nokia Snake game in web using rust.
+This NPM Package is built using `webassembly` with the help of `rust` language. The concept is running old Nokia Snake game in web using rust.
 
-## Rust Tools
-
-  1. `rustup` - a tool for managing different versions of rust
-  2. `rustc`  - a tool for compiling rust code
-  3. `cargo`  - a tool for managing rust packages and projects
-  5. `rustc --version` - to check `rust` version
-
-## How to create a new project?
-
-  1. Binary Project - Executable Program
-
-  ```bash
-cargo init
-  ```
-
-  2. Library Project - Dependency for other Programs
-
-  ```bash
-cargo init --lib
-  ```
-
-## Installing dependent packages and spinning up the server
-
-  1. webpack
+## How to install
 
 ```bash
-npm install -D webpack webpack-cli webpack-dev-server
+npm i ar_snake_game
 ```
 
-  2. [HTML Webpack Plugin](https://www.npmjs.com/package/html-webpack-plugin)
+## How to use?
 
-```bash
-npm install -D html-webpack-plugin
+```typescript
+import init, { World, Direction } from `ar_snake_game`;
+import { GamesStatus } from `ar_snake_game`;
+import { rnd } from './utils/rnd';
+
+init()
+.then(wasm => {
+  const CELL_SIZE = 20;
+  const WORLD_WIDTH = 13;
+  const snakeSpawnIdx = rnd(WORLD_WIDTH * WORLD_WIDTH);
+
+  const world = World.new(WORLD_WIDTH, snakeSpawnIdx);
+  const worldWidth = world.width(); 
+
+  const gameControlBtn = document.getElementById('game-control-btn');
+  const gameStatus = document.getElementById('game-status');
+  const gamePoints = document.getElementById('game-points');
+  const btnUp = document.getElementById('key-up');
+  const btnDown = document.getElementById('key-down');
+  const btnLeft = document.getElementById('key-left');
+  const btnRight = document.getElementById('key-right');
+
+  const canvas = <HTMLCanvasElement> document.getElementById('snake-canvas');
+  const ctx = canvas.getContext('2d');
+
+  const myColors = {
+    '--green-bg': `#15883e`,
+    '--green-lite': '#1db954',
+    '--my-red': '#ff0000',
+    '--my-purple': '#7878db'
+  }
+
+  canvas.height = worldWidth * CELL_SIZE;
+  canvas.width = worldWidth * CELL_SIZE;
+
+  gameControlBtn.addEventListener('click', _ => {
+    const status = world.game_status();
+    if (status === undefined) {
+      gameControlBtn.textContent = 'Playing...'
+      world.start_game();
+      play();
+    } else {
+      location.reload();
+    }
+
+  });
+
+  document.addEventListener('keydown', (event) => {
+    // console.log(event.code);
+    switch(event.code) {
+      case 'ArrowUp':
+      case 'KeyW':
+        world.change_snake_dir(Direction.Up);
+        break;
+      case 'ArrowRight':
+      case 'KeyD':
+        world.change_snake_dir(Direction.Right);
+        break;
+      case 'ArrowDown':
+      case 'KeyS':
+        world.change_snake_dir(Direction.Down);
+        break;
+      case 'ArrowLeft':
+      case 'KeyA':
+        world.change_snake_dir(Direction.Left);
+        break;
+    }
+  });
+
+  btnUp.addEventListener('click', _ => {
+    world.change_snake_dir(Direction.Up);
+  });
+
+  btnDown.addEventListener('click', _ => {
+    world.change_snake_dir(Direction.Down);
+  });
+
+  btnLeft.addEventListener('click', _ => {
+    world.change_snake_dir(Direction.Left);
+  });
+
+  btnRight.addEventListener('click', _ => {
+    world.change_snake_dir(Direction.Right);
+  });
+
+  function drawWorld() {
+    ctx.beginPath();
+
+    for(let x = 0; x < worldWidth + 1; x++) {
+      ctx.moveTo(CELL_SIZE * x, 0);
+      ctx.lineTo(CELL_SIZE * x, worldWidth * CELL_SIZE);
+    }
+
+    for(let y = 0; y < worldWidth + 1; y++) {
+      ctx.moveTo(0, CELL_SIZE * y);
+      ctx.lineTo(worldWidth * CELL_SIZE, CELL_SIZE * y);
+    }
+
+    ctx.stroke();
+  }
+
+  function drawReward() {
+    const reward_idx = world.reward_cell();
+    const col = reward_idx % worldWidth;
+    const row = Math.floor(reward_idx / worldWidth);
+
+    ctx.beginPath();
+    ctx.fillStyle = myColors['--my-purple'];
+    ctx.fillRect(
+      col * CELL_SIZE,
+      row * CELL_SIZE,
+      CELL_SIZE,
+      CELL_SIZE
+    );
+    ctx.stroke();
+  }
+
+  function drawSnake() {
+    const snakeCellPtr = world.snake_cells();
+    const snakeLen = world.snake_length();
+
+    const snakeCells = new Uint32Array(
+      wasm.memory.buffer,
+      snakeCellPtr,
+      snakeLen
+    );
+
+    snakeCells
+    .filter((cellIdx, i) => !(i > 0 && cellIdx === snakeCells[0])) // removing the clashing snake body cell to show snake head; this is filter-out method
+    .forEach((cellIdx, i) => {
+      const col = cellIdx % worldWidth;
+      const row = Math.floor(cellIdx / worldWidth);
+
+      ctx.fillStyle = i === 0 ? myColors['--my-red'] : myColors['--green-lite'];
+  
+      ctx.beginPath();
+      ctx.fillRect(
+        col * CELL_SIZE,
+        row * CELL_SIZE,
+        CELL_SIZE,
+        CELL_SIZE
+      );
+    });
+
+
+    ctx.stroke();
+  }
+
+  function drawGameStatus() {
+    gameStatus.textContent = world.game_status_text();
+    gamePoints.textContent = world.points().toString();
+  }
+
+  function paint() {
+    drawWorld();
+    drawSnake();
+    drawReward();
+    drawGameStatus();
+  }
+
+  function play() {
+    const status = world.game_status();
+    if(status == GamesStatus.Won || status == GamesStatus.Lost) {
+      gameControlBtn.textContent = 'Re-Play';
+      drawGameStatus();
+      return;
+    }
+
+    const fps = 3;
+    setTimeout(() => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      paint();
+      world.step();
+      requestAnimationFrame(play);
+    }, 1000/fps);
+  }
+
+paint();
+});
 ```
 
-  3. Add [wasm-bindgen](https://crates.io/crates/wasm-bindgen) to `.toml` file
+rnd.js
 
-```
-wasm-bindgen = "0.2.78"
-```
-
-  4. Add `crate-type = ["cdylib"] ` inside `[lib]` table in`.toml` file.
-
-```
-crate-type = ["cdylib"]
+```js
+export function rnd(max) {
+  return Math.floor(Math.random() * max);
+}
 ```
 
-  5. To build the package, we need an additional tool, `wasm-pack`. This helps compile the code to WebAssembly, as well as produce the right packaging for use in the browser. To download and install it, enter the following command into your terminal:
-```bash
-cargo install wasm-pack
-```
-
-  6. To build the package. We need to type this into our terminal:
-```bash
-wasm-pack build --target web
-```
-
-  7. To add type support for js
-  ```bash
-npm install --save-dev typescript ts-loader
-  ```
-
-  configure `webpack.config.js` file
-
-
-## How to run this app?
-
-  1. Build rust code as package to be consumed by js
-```bash
-npm run wasm
-```
-
-  2. To serve the web app - development
-
-```bash
-npm run serve
-```
-
-### VSC extensions
-
-  - [Even Better TOML](https://marketplace.visualstudio.com/items?itemName=tamasfe.even-better-toml)
-  - [Rust](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust)
-
-### Resources
-
-  * [Rust Package registry](https://crates.io/)
-  * [wee_alloc](https://github.com/rustwasm/wee_alloc)
+- For more details - [GitHub](https://github.com/actionanand/snake_game)
