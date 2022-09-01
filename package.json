@@ -8,6 +8,7 @@
     "serve": "webpack serve --mode=development",
     "prodBuild": "webpack --mode=production",
     "build": "concurrently \"npm run wasm\" \"npm run prodBuild\"",
+    "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },
   "repository": {
