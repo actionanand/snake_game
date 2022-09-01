@@ -8,6 +8,9 @@ This is a mini game to learn about `webassembly` with the help of `rust` languag
   2. `rustc`  - a tool for compiling rust code
   3. `cargo`  - a tool for managing rust packages and projects
   5. `rustc --version` - to check `rust` version
+  
+  - This app was built using version `1.57.0`
+  - To make this project work, You should have [rust](https://www.rust-lang.org/learn/get-started) installed globally in your machine.
 
 ## How to create a new project?
 
